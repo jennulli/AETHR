@@ -101,6 +101,44 @@
 </head>
 <body class="bg-background">
 
+    <!-- Login/Role Selection Overlay -->
+    <div id="login-overlay" class="fixed inset-0 z-[200] bg-background flex flex-col items-center justify-center transition-opacity duration-500">
+        <div class="flex items-center gap-2 mb-2">
+            <div class="w-12 h-12 neu-flat rounded-xl flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">dataset</span>
+            </div>
+            <h1 class="text-5xl font-black text-primary tracking-tighter">AETHR</h1>
+        </div>
+        <p class="text-sm font-bold text-on-surface-variant tracking-widest uppercase mb-16">Enterprise Portal</p>
+
+        <div class="flex flex-col md:flex-row gap-8 mb-16 px-4">
+            <!-- Brand Role -->
+            <button onclick="selectRole('brand')" class="w-72 h-72 neu-card rounded-3xl flex flex-col items-center justify-center gap-6 hover:-translate-y-2 transition-all group border-2 border-transparent hover:border-primary/20">
+                <div class="w-24 h-24 neu-inset rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-5xl text-primary">storefront</span>
+                </div>
+                <div class="text-center">
+                    <h3 class="text-xl font-bold text-on-surface mb-2">브랜드 (Brand)</h3>
+                    <p class="text-xs text-on-surface-variant font-medium leading-relaxed px-6">원하는 분위기의 카페를 탐색하고<br>대여 계약을 맺어보세요.</p>
+                </div>
+            </button>
+            
+            <!-- Cafe Role -->
+            <button onclick="selectRole('cafe')" class="w-72 h-72 neu-card rounded-3xl flex flex-col items-center justify-center gap-6 hover:-translate-y-2 transition-all group border-2 border-transparent hover:border-tertiary/20">
+                <div class="w-24 h-24 neu-inset rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-5xl text-tertiary">coffee</span>
+                </div>
+                <div class="text-center">
+                    <h3 class="text-xl font-bold text-on-surface mb-2">카페 (Cafe)</h3>
+                    <p class="text-xs text-on-surface-variant font-medium leading-relaxed px-6">브랜드의 공간 대여 요청을 확인하고<br>운영 프로세스를 진행하세요.</p>
+                </div>
+            </button>
+        </div>
+
+        <button onclick="selectRole('admin')" class="text-xs font-bold text-on-surface-variant hover:text-primary transition-colors hover:underline underline-offset-4">관리자로 접속</button>
+    </div>
+
+    <!-- Sidebar -->
     <aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-surface border-r border-white/50 flex flex-col p-lg gap-lg z-50">
         <div class="flex items-center gap-sm px-sm">
             <div class="w-10 h-10 neu-flat rounded-lg flex items-center justify-center text-primary">
@@ -112,17 +150,20 @@
             </div>
         </div>
         
-        <button onclick="showToast('신규 요청서가 생성되었습니다.')" class="w-full py-md neu-btn-primary text-on-primary rounded-xl font-bold flex items-center justify-center gap-sm transition-all">
-            <span class="material-symbols-outlined">add</span> New Request
+        <button onclick="showToast('신규 프로세스가 생성되었습니다.')" class="w-full py-md neu-btn-primary text-on-primary rounded-xl font-bold flex items-center justify-center gap-sm transition-all">
+            <span class="material-symbols-outlined">add</span> New Action
         </button>
         
         <nav class="flex flex-col gap-sm flex-grow mt-2" id="main-nav">
+            <!-- Brand Only -->
             <a href="#" onclick="navigateTo('search')" id="nav-search" class="nav-item flex items-center gap-md px-md py-sm text-on-surface-variant hover:neu-btn rounded-lg transition-all font-bold">
-                <span class="material-symbols-outlined">search</span> Search (Brand)
+                <span class="material-symbols-outlined">search</span> Space Search
             </a>
-            <a href="#" onclick="navigateTo('requests')" id="nav-requests" class="nav-item flex items-center gap-md px-md py-sm text-on-surface-variant hover:neu-btn rounded-lg transition-all font-bold">
-                <span class="material-symbols-outlined">mail</span> Requests (Cafe)
+            <!-- Cafe Only -->
+            <a href="#" onclick="navigateTo('requests')" id="nav-requests" class="nav-item flex items-center gap-md px-md py-sm text-on-surface-variant hover:neu-btn rounded-lg transition-all font-bold" style="display:none;">
+                <span class="material-symbols-outlined">mail</span> Space Requests
             </a>
+            <!-- Common -->
             <a href="#" onclick="navigateTo('contract')" id="nav-contract" class="nav-item flex items-center gap-md px-md py-sm text-on-surface-variant hover:neu-btn rounded-lg transition-all font-bold">
                 <span class="material-symbols-outlined">description</span> Contracts
             </a>
@@ -139,21 +180,24 @@
                 <span class="material-symbols-outlined text-sm">settings</span><span class="text-sm font-medium">Settings</span>
             </a>
             <div class="mt-4 flex items-center gap-md p-3 neu-inset rounded-xl">
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjgVJdWE7ebqZwnF1fAw0nAuOCN7azJ_InezgBcb2rUaSx4iPnWOUaj8Vl7IShj3FDEkpn3uijyoKtjSiOVE5zKTbJWWu8U7unb-0xukTBQCt-SWWYwFj_J-sCqnhMQTKIxZ6T9sxwj8GKAkvmLN0aYK0LoCqDxsMLaLWFTtYt522ysmj35Vn3CbXH9e_erflKaHYtua5AJIMaBsKSHZXJ1d3cssKnPlXvJCjX4gduqpp27djOjwqQ2leHwJ9rxGesYvkmVZfjjPo" alt="User" class="w-10 h-10 rounded-full border-2 border-white/50 object-cover" />
+                <div class="w-10 h-10 neu-flat rounded-full flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined">person</span>
+                </div>
                 <div class="flex flex-col">
-                    <span class="text-sm font-bold text-on-surface">한OO 마케터</span>
-                    <span class="text-[10px] text-on-surface-variant font-medium">Brand / Ops Admin</span>
+                    <span id="user-profile-name" class="text-sm font-bold text-on-surface">사용자</span>
+                    <span id="user-profile-role" class="text-[10px] text-on-surface-variant font-medium uppercase">Role</span>
                 </div>
             </div>
         </div>
     </aside>
 
+    <!-- Header -->
     <header class="flex justify-between items-center w-[calc(100%-16rem)] h-16 px-margin-desktop ml-64 bg-surface/90 backdrop-blur-md sticky top-0 z-40 border-b border-white/40">
         <div class="flex items-center gap-md">
-            <h2 id="header-title" class="text-xl font-bold text-on-surface tracking-tight">AI 공간 탐색</h2>
+            <h2 id="header-title" class="text-xl font-bold text-on-surface tracking-tight">대시보드</h2>
             <div class="flex items-center gap-2 px-3 py-1 neu-inset rounded-full border border-white/40">
                 <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                <span id="header-badge" class="text-[10px] font-bold text-primary uppercase tracking-tighter">Live Matching</span>
+                <span id="header-badge" class="text-[10px] font-bold text-primary uppercase tracking-tighter">Live Session</span>
             </div>
         </div>
         <div class="flex items-center gap-lg">
@@ -171,7 +215,8 @@
 
     <main class="ml-64 p-margin-desktop min-h-[calc(100vh-64px)]">
 
-        <div id="screen-search" class="app-screen active">
+        <!-- 1. Brand Screen: Search -->
+        <div id="screen-search" class="app-screen">
             <div class="flex flex-col gap-2xl">
                 <section class="max-w-4xl mx-auto w-full flex flex-col gap-xl items-center text-center pt-8">
                     <h3 class="text-4xl text-on-surface leading-tight font-extrabold tracking-tight">어떤 분위기의 공간을 찾고 계신가요?</h3>
@@ -203,10 +248,6 @@
                                 <button class="px-2 py-1.5 neu-flat hover:neu-inset rounded-lg text-sm font-medium transition-all">한남동</button>
                             </div>
                         </div>
-                        <div class="flex flex-col gap-sm">
-                            <label class="text-[12px] text-on-surface-variant uppercase tracking-widest font-extrabold flex justify-between">규모 (평) <span class="text-primary">10평 - 50평</span></label>
-                            <div class="px-1 py-3"><input type="range" class="w-full accent-primary h-2 bg-white/50 rounded-full appearance-none cursor-pointer neu-inset"></div>
-                        </div>
                         <button class="mt-4 w-full py-3 neu-flat text-on-surface font-bold rounded-xl hover:neu-inset transition-all active:scale-95">필터 적용하기</button>
                     </aside>
 
@@ -218,18 +259,14 @@
                         
                         <div class="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-lg">
                             <article class="group neu-card rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300">
-                                <div class="relative h-48 overflow-hidden m-2 rounded-xl">
-                                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbr1VxNSIwEZxa-PN69rhVQvhZziybMi66YyZ9HboBckPbP079qCs7ODJHm91IEejofjrFugmkiki-0AVnogu4wn130iB4DNjoXbAsYPeW3xTUWLMJ8X3luIi8JewyLUFS6RVLTTFBVJcniKt-kxNer5oaiuvVw5dcdnju-GGLKS9Xkui3axhPSXwReqCizveTP-T-WRMkXytcfryWr7poKhgjvySd_yUvrRh5E6WlkOo6pvw8qEeX2WwD0j9dtiokAz_thiT9N4g" alt="Cafe" class="w-full h-full object-cover">
+                                <div class="relative h-48 overflow-hidden m-2 rounded-xl bg-gray-200">
+                                    <div class="w-full h-full flex items-center justify-center text-gray-400 font-bold bg-[#cfdaf2]">더 아카이브 성수</div>
                                     <div class="absolute top-2 right-2 px-3 py-1 bg-primary/90 text-white rounded-full font-bold text-[10px] uppercase shadow-lg">Match 98%</div>
                                 </div>
                                 <div class="px-5 pb-5 flex flex-col gap-4">
                                     <div>
-                                        <h5 class="font-bold text-lg text-on-surface">블루보틀 스타일 스페이스</h5>
+                                        <h5 class="font-bold text-lg text-on-surface">더 아카이브 성수 (카페)</h5>
                                         <p class="text-xs text-on-surface-variant font-bold uppercase tracking-tight mt-1">서울 성수동 • 28평</p>
-                                    </div>
-                                    <div class="flex flex-wrap gap-2">
-                                        <span class="px-2 py-1 neu-inset text-primary rounded text-[10px] font-bold">#모던</span>
-                                        <span class="px-2 py-1 neu-inset text-primary rounded text-[10px] font-bold">#미니멀</span>
                                     </div>
                                     <div class="flex justify-between items-center pt-4 border-t border-white/50">
                                         <div class="flex flex-col">
@@ -240,41 +277,18 @@
                                     </div>
                                 </div>
                             </article>
-                            <article class="group neu-card rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300">
-                                <div class="relative h-48 overflow-hidden m-2 rounded-xl">
-                                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdgZu2k_lAzHQsmEIwQyeEc3AweEl8zjonnmughyGRTQmprBl936jMHV9073OH-JnMdrP93Tm3VUW-O7sABSjohjP02ABy75wGCE-ud5QTT9El5flFAAM1GFe9BrR_2u_2XiqKgDKgKsHPpLXZllqzseqVOAk8GVOv76x_AABV5qQD4zC_UdMQFGy-IlLnuz4fsC-LTYmMJ05IO3Id-YCvto9M2exhmN98ua_-SZStymYPTpWGiztnd6Ql91VFFCSSEiB-NXjYznI" class="w-full h-full object-cover">
-                                    <div class="absolute top-2 right-2 px-3 py-1 bg-tertiary/90 text-white rounded-full font-bold text-[10px] uppercase shadow-lg">Match 87%</div>
-                                </div>
-                                <div class="px-5 pb-5 flex flex-col gap-4">
-                                    <div>
-                                        <h5 class="font-bold text-lg text-on-surface">성수 아뜰리에 갤러리</h5>
-                                        <p class="text-xs text-on-surface-variant font-bold uppercase tracking-tight mt-1">서울 성수동 • 35평</p>
-                                    </div>
-                                    <div class="flex justify-between items-center pt-4 border-t border-white/50 mt-auto">
-                                        <div class="flex flex-col">
-                                            <span class="text-[9px] text-on-surface-variant font-black uppercase tracking-widest">Est. Revenue</span>
-                                            <span class="font-bold text-primary text-sm">₩3.1M / wk</span>
-                                        </div>
-                                        <button onclick="showToast('신청 완료')" class="px-6 py-2.5 neu-btn rounded-xl font-bold text-sm text-primary">상세 보기</button>
-                                    </div>
-                                </div>
-                            </article>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- 2. Cafe Screen: Requests -->
         <div id="screen-requests" class="app-screen">
             <div class="flex items-center gap-4 mb-8 overflow-x-auto scrollbar-hide pb-2">
                 <button class="px-6 py-2.5 neu-pressed text-sm text-primary rounded-full font-bold">전체 요청</button>
                 <button class="px-6 py-2.5 neu-btn text-sm text-on-surface-variant rounded-full font-medium">신규 (1)</button>
                 <button class="px-6 py-2.5 neu-btn text-sm text-on-surface-variant rounded-full font-medium">검토중</button>
-                <div class="ml-auto">
-                    <button class="neu-btn px-4 py-2 rounded-lg flex items-center gap-2 text-xs font-bold text-on-surface-variant">
-                        <span class="material-symbols-outlined text-sm">sort</span> 최신순
-                    </button>
-                </div>
             </div>
 
             <div class="grid grid-cols-1 gap-xl max-w-4xl mx-auto">
@@ -283,14 +297,14 @@
                         <span class="bg-primary text-white px-3 py-1 rounded-full text-[10px] font-bold tracking-widest animate-pulse shadow-md">NEW</span>
                     </div>
                     <div class="flex items-start gap-6">
-                        <div class="w-24 h-24 rounded-2xl neu-inset flex-shrink-0 flex items-center justify-center p-2">
-                            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeAyVxnRMHAQTVHakZbUYomSnBExqy8isyDI2b57lGQ73-TCmJ8aQdZMId6DKS01t9_7_7qMPGXR99ih4eCSf8aCGhgNTgX189ZpN_65NjVLLAI0ora6hVaPw-YS6HSynUuaxd4DxCWqPx0Fmi0H9R8KgkEwX44aZqaHKJSNdEAiBsMg2PMuQeC7u9h6C0vdzHKlZQVtkt_XCSQRuOgzValC0dbrHlK1Z5Fbu5XNoklY75Ezu5EOkUCid2fQhPzKXaNpKEvBY0Gmo" class="w-full h-full object-cover rounded-xl" alt="Brand Logo">
+                        <div class="w-24 h-24 rounded-2xl neu-inset flex-shrink-0 flex items-center justify-center p-2 text-primary font-bold bg-white text-xs text-center border-4 border-background">
+                            MONO<br>CLOSET
                         </div>
                         <div class="flex-1">
                             <div class="flex justify-between items-start mb-4">
                                 <div>
                                     <h3 class="text-xl text-on-surface font-extrabold">모노클로젯 (MONOCLOSET)</h3>
-                                    <p class="text-xs text-on-surface-variant font-bold mt-1">STREET FASHION · FOLLOWER 24K</p>
+                                    <p class="text-xs text-on-surface-variant font-bold mt-1">STREET FASHION · BRAND REQUEST</p>
                                 </div>
                             </div>
                             <div class="grid grid-cols-2 gap-6 py-4 border-y border-white/50 mb-4">
@@ -317,15 +331,13 @@
             </div>
         </div>
 
+        <!-- 3. Common Screen: Contract -->
         <div id="screen-contract" class="app-screen">
             <div class="flex gap-lg min-h-[calc(100vh-140px)]">
                 <section class="w-[40%] flex flex-col gap-lg pr-4">
                     <div class="neu-card rounded-2xl overflow-hidden flex flex-col p-2">
-                        <div class="relative h-56 p-2">
-                            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUtTnLns1Rl2NR39nToYKy4WTZcgqZ6emxKGXJD7QFErdP_8c4hoQqzhOL1zDf6pzqxPePU9uQ_m-2p1GlrNBwgkjdUjqBS_H3d7CY4ta_azD-Jr9JWYKz2uJwSXMbBGYfIvcUk03t3SgXB80rzXpo5RDAiIHQ6oRKyq8n67ycKJjcNKbucxpHhj2NEQJz-TQGc4hwrdavyAgxmiGkldAv8E6q7bcOYQYj94unL7-enDzxZH2WGu9fGz_wF5tL2C2XjwIDoakQk8s" class="w-full h-full object-cover rounded-xl shadow-inner">
-                        </div>
-                        <div class="p-4 flex flex-col gap-4">
-                            <h2 class="text-2xl font-bold text-on-surface">더 아카이브 성수 (카페)</h2>
+                        <div class="p-4 flex flex-col gap-4 mt-2">
+                            <h2 class="text-2xl font-bold text-on-surface">더 아카이브 성수 X 모노클로젯</h2>
                             <div class="grid grid-cols-2 gap-4">
                                 <div class="neu-inset p-3 rounded-xl flex flex-col items-center">
                                     <span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-tight">면적</span>
@@ -347,6 +359,36 @@
                 </section>
 
                 <section class="w-[60%] flex flex-col gap-lg">
+                    <!-- 신규 추가: 견적서 및 사업자등록증 패널 -->
+                    <div class="neu-card rounded-2xl p-6 flex flex-col gap-4">
+                        <h3 class="text-xs font-bold text-on-surface-variant tracking-widest border-b border-white/50 pb-4 mb-2 uppercase">필수 서류 (Required Documents)</h3>
+                        <div class="grid grid-cols-2 gap-6">
+                            <!-- 견적서 다운받기 -->
+                            <div class="neu-inset p-5 rounded-xl flex flex-col items-center justify-center gap-4">
+                                <span class="material-symbols-outlined text-4xl text-primary">request_quote</span>
+                                <div class="text-center">
+                                    <span class="block text-sm font-bold text-on-surface">팝업 견적서</span>
+                                    <span class="block text-[10px] text-on-surface-variant mt-1">최종 협의된 금액 기준</span>
+                                </div>
+                                <button onclick="downloadPDF()" class="px-5 py-2.5 neu-btn-primary text-xs font-bold rounded-lg w-full flex justify-center items-center gap-2 hover:opacity-90">
+                                    <span class="material-symbols-outlined text-[16px]">download</span> 견적서 다운받기
+                                </button>
+                            </div>
+                            <!-- 사업자등록증 업로드 -->
+                            <div class="neu-inset p-5 rounded-xl flex flex-col items-center justify-center gap-4">
+                                <span class="material-symbols-outlined text-4xl text-secondary">domain</span>
+                                <div class="text-center">
+                                    <span class="block text-sm font-bold text-on-surface">사업자등록증</span>
+                                    <span class="block text-[10px] text-on-surface-variant mt-1">전자 서명을 위한 필수 등록</span>
+                                </div>
+                                <label class="px-5 py-2.5 neu-btn text-xs font-bold rounded-lg w-full flex justify-center items-center gap-2 cursor-pointer text-primary hover:neu-pressed">
+                                    <span class="material-symbols-outlined text-[16px]">upload_file</span> 사업자등록증 업로드
+                                    <input type="file" class="hidden" accept=".pdf, image/*" onchange="showToast('사업자등록증이 성공적으로 업로드 되었습니다.')">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="neu-card rounded-2xl overflow-hidden flex flex-col p-6">
                         <h3 class="text-xs font-bold text-on-surface-variant tracking-widest border-b border-white/50 pb-4 mb-4 uppercase">결제 요약 (Summary)</h3>
                         <div class="flex flex-col gap-3">
@@ -355,7 +397,7 @@
                                 <span class="text-sm font-bold text-on-surface">₩ 1,800,000</span>
                             </div>
                             <div class="flex justify-between items-center px-4 py-5 neu-flat bg-white/20 rounded-xl mt-2 border border-primary/20">
-                                <span class="text-base font-extrabold text-primary uppercase">총 에스크로 결제액</span>
+                                <span class="text-base font-extrabold text-primary uppercase">총 결제액</span>
                                 <span class="text-2xl font-black text-primary">₩ 1,818,000 <span class="text-[10px] font-medium text-on-surface-variant">(VAT 포함)</span></span>
                             </div>
                         </div>
@@ -364,19 +406,18 @@
                     <div class="neu-card rounded-2xl flex-grow flex flex-col overflow-hidden p-4 relative">
                         <div class="flex justify-between items-center px-4 py-2 mb-2">
                             <span class="text-xs font-bold text-on-surface-variant">전자 임대차 계약서 (AETHR 표준)</span>
-                            <button class="neu-btn px-4 py-1.5 rounded-full text-[10px] font-bold text-primary flex items-center gap-1">PDF 다운로드</button>
                         </div>
                         <div class="p-6 overflow-y-auto max-h-[250px] text-sm text-on-surface-variant leading-loose neu-inset rounded-xl custom-scrollbar mb-4 bg-white/30">
                             <h4 class="text-center font-bold text-on-surface text-lg mb-6 underline tracking-tight">AETHR 팝업 스페이스 이용 계약서</h4>
-                            <p class="mb-4">제 1 조 (목적)<br/>본 계약은 '브랜드'(이하 "갑")와 '공간 제공자'(이하 "을") 간의 팝업 스토어 운영을 위한 공간 이용 및 서비스 제공에 관한 권리와 의무를 규정한다.</p>
-                            <p class="mb-4">제 2 조 (이용 기간 및 장소)<br/>을은 갑에게 [더 아카이브 성수]의 지정된 구역을 2025년 06월 10일부터 06월 24일까지 제공한다.</p>
-                            <p class="mb-4">제 3 조 (이용료 및 결제)<br/>이용료는 AETHR 플랫폼의 에스크로 시스템에 예치되며, 팝업 정상 종료 후 을에게 정산된다.</p>
+                            <p class="mb-4">제 1 조 (목적)<br/>본 계약은 '브랜드'와 '공간 제공자(카페)' 간의 팝업 스토어 운영을 위한 공간 이용 및 서비스 제공에 관한 권리와 의무를 규정한다.</p>
+                            <p class="mb-4">제 2 조 (이용 기간 및 장소)<br/>공간 제공자는 브랜드에게 [더 아카이브 성수]의 지정된 구역을 2025년 06월 10일부터 06월 24일까지 제공한다.</p>
+                            <p class="mb-4">제 3 조 (이용료 및 결제)<br/>이용료는 AETHR 플랫폼의 에스크로 시스템에 예치되며, 팝업 정상 종료 후 정산된다.</p>
                         </div>
 
                         <div class="mt-auto flex flex-col gap-4">
                             <div class="flex items-center gap-3 px-2">
                                 <input type="checkbox" id="contractReview" class="w-5 h-5 rounded-md neu-inset border-none text-primary focus:ring-primary cursor-pointer">
-                                <label for="contractReview" class="text-sm font-bold text-on-surface cursor-pointer select-none">위 계약 내용을 모두 확인하였으며, 전자 서명 및 결제 진행에 동의합니다.</label>
+                                <label for="contractReview" class="text-sm font-bold text-on-surface cursor-pointer select-none">위 계약 내용과 첨부된 서류를 모두 확인하였으며, 전자 서명 및 결제에 동의합니다.</label>
                             </div>
                             
                             <button id="btn-sign" disabled class="w-full py-4 bg-secondary text-white font-bold rounded-xl opacity-40 cursor-not-allowed transition-all text-sm tracking-widest uppercase shadow-inner">
@@ -398,6 +439,7 @@
             </div>
         </div>
 
+        <!-- 4. Common Screen: Kanban Board -->
         <div id="screen-kanban" class="app-screen h-[calc(100vh-140px)] flex flex-col">
             <div class="flex justify-between items-center mb-6">
                 <div class="flex gap-3">
@@ -411,10 +453,11 @@
 
             <div class="flex gap-6 h-full pb-4 overflow-x-auto custom-scrollbar flex-1 items-start">
                 
+                <!-- Preparing Column -->
                 <div class="flex-shrink-0 w-[300px] flex flex-col gap-4">
                     <div class="flex items-center justify-between px-2">
                         <span class="font-extrabold text-base text-on-surface uppercase">준비 (Preparing)</span>
-                        <span class="neu-inset px-2.5 py-1 rounded-md text-xs font-bold text-primary">2</span>
+                        <span class="neu-inset px-2.5 py-1 rounded-md text-xs font-bold text-primary">3</span>
                     </div>
                     <div class="min-h-[500px] neu-inset rounded-2xl p-4 flex flex-col gap-4 border border-white/40">
                         <div class="task-card neu-flat p-4 rounded-xl hover:-translate-y-1 transition-all cursor-pointer border border-white/50 group">
@@ -423,10 +466,10 @@
                                 <span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">drag_indicator</span>
                             </div>
                             <div class="flex items-start gap-3">
-                                <input type="checkbox" checked class="mt-1 rounded border-none neu-inset text-primary focus:ring-0 w-4 h-4 cursor-pointer">
+                                <input type="checkbox" class="mt-1 rounded border-none neu-inset text-primary focus:ring-0 w-4 h-4 cursor-pointer">
                                 <div>
-                                    <h4 class="font-bold text-sm task-checked text-on-surface">공간 사전 점검 완료</h4>
-                                    <p class="text-xs text-on-surface-variant mt-1">성수 실측 리포트 업로드</p>
+                                    <h4 class="font-bold text-sm text-on-surface">포스(POS) 기기 API 연동 테스트</h4>
+                                    <p class="text-xs text-on-surface-variant mt-1">결제 시스템 에스크로 연동 확인</p>
                                 </div>
                             </div>
                         </div>
@@ -438,7 +481,19 @@
                                 <input type="checkbox" class="mt-1 rounded border-none neu-inset text-primary focus:ring-0 w-4 h-4 cursor-pointer">
                                 <div>
                                     <h4 class="font-bold text-sm text-on-surface">VMD 자재 입고 공간 확보</h4>
-                                    <p class="text-xs text-on-surface-variant mt-1">중앙 매대 지하 이동</p>
+                                    <p class="text-xs text-on-surface-variant mt-1">중앙 매대 지하 창고로 이동 조치</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="task-card neu-flat p-4 rounded-xl hover:-translate-y-1 transition-all cursor-pointer border border-white/50 group">
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="text-primary text-[10px] font-bold uppercase tracking-wider px-2 py-1 neu-inset rounded">공통 업무</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" class="mt-1 rounded border-none neu-inset text-primary focus:ring-0 w-4 h-4 cursor-pointer">
+                                <div>
+                                    <h4 class="font-bold text-sm text-on-surface">일일 스태프 교대조 편성표 확정</h4>
+                                    <p class="text-xs text-on-surface-variant mt-1">오전/오후반 인원 배치</p>
                                 </div>
                             </div>
                         </div>
@@ -448,12 +503,13 @@
                     </div>
                 </div>
 
+                <!-- Installing Column -->
                 <div class="flex-shrink-0 w-[300px] flex flex-col gap-4">
                     <div class="flex items-center justify-between px-2">
                         <span class="font-extrabold text-base text-on-surface uppercase">설치 (Installing)</span>
-                        <span class="neu-inset px-2.5 py-1 rounded-md text-xs font-bold text-primary">1</span>
+                        <span class="neu-inset px-2.5 py-1 rounded-md text-xs font-bold text-primary">3</span>
                     </div>
-                    <div class="min-h-[500px] neu-inset rounded-2xl p-4 flex flex-col gap-4 border border-primary/20">
+                    <div class="min-h-[500px] neu-inset rounded-2xl p-4 flex flex-col gap-4 border border-primary/20 bg-primary/5">
                         <div class="task-card neu-flat p-4 rounded-xl border-2 border-primary/30 hover:-translate-y-1 transition-all cursor-pointer">
                             <div class="flex justify-between items-start mb-3">
                                 <span class="bg-error-container text-error text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded">Urgent</span>
@@ -461,90 +517,113 @@
                             <div class="flex items-start gap-3">
                                 <input type="checkbox" class="mt-1 rounded border-none neu-inset text-primary focus:ring-0 w-4 h-4 cursor-pointer">
                                 <div>
-                                    <h4 class="font-bold text-sm text-on-surface">아크릴 구조물 셋업</h4>
+                                    <h4 class="font-bold text-sm text-on-surface">중앙 아크릴 구조물 셋업</h4>
                                     <p class="text-xs text-on-surface-variant mt-1">D-1 조명 테스트 포함</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="task-card neu-flat p-4 rounded-xl hover:-translate-y-1 transition-all cursor-pointer">
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="text-primary text-[10px] font-bold uppercase tracking-wider px-2 py-1 neu-inset rounded">브랜드 담당</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" class="mt-1 rounded border-none neu-inset text-primary focus:ring-0 w-4 h-4 cursor-pointer">
+                                <div>
+                                    <h4 class="font-bold text-sm text-on-surface">초도 재고 1,500피스 입고</h4>
+                                    <p class="text-xs text-on-surface-variant mt-1">바코드 검수 및 매대 진열</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="task-card neu-flat p-4 rounded-xl hover:-translate-y-1 transition-all cursor-pointer">
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="text-primary text-[10px] font-bold uppercase tracking-wider px-2 py-1 neu-inset rounded">브랜드 담당</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" class="mt-1 rounded border-none neu-inset text-primary focus:ring-0 w-4 h-4 cursor-pointer">
+                                <div>
+                                    <h4 class="font-bold text-sm text-on-surface">메인 윈도우 시트지 부착 작업</h4>
+                                    <p class="text-xs text-on-surface-variant mt-1">외부 로고 랩핑 및 파사드 조명</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Operating Column -->
                 <div class="flex-shrink-0 w-[300px] flex flex-col gap-4">
                     <div class="flex items-center justify-between px-2">
                         <span class="font-extrabold text-base text-on-surface uppercase">운영 (Operating)</span>
+                        <span class="neu-inset px-2.5 py-1 rounded-md text-xs font-bold text-primary">2</span>
                     </div>
                     <div class="min-h-[500px] neu-inset rounded-2xl p-4 flex flex-col gap-4">
-                        <div class="flex items-center justify-center h-full text-sm font-bold text-on-surface-variant/50 border-2 border-dashed border-on-surface-variant/20 rounded-xl">
-                            Drop tasks here
+                        <div class="task-card neu-flat p-4 rounded-xl hover:-translate-y-1 transition-all cursor-pointer">
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="text-secondary text-[10px] font-bold uppercase tracking-wider px-2 py-1 neu-inset rounded">매일 반복</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" class="mt-1 rounded border-none neu-inset text-primary focus:ring-0 w-4 h-4 cursor-pointer">
+                                <div>
+                                    <h4 class="font-bold text-sm text-on-surface">일일 방문객 대기표 발부 및 관리</h4>
+                                    <p class="text-xs text-on-surface-variant mt-1">태블릿 웨이팅 시스템 모니터링</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="task-card neu-flat p-4 rounded-xl hover:-translate-y-1 transition-all cursor-pointer">
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="bg-error-container text-error text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded">Urgent</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" class="mt-1 rounded border-none neu-inset text-primary focus:ring-0 w-4 h-4 cursor-pointer">
+                                <div>
+                                    <h4 class="font-bold text-sm text-on-surface">F&B 한정판 음료 재고 확인</h4>
+                                    <p class="text-xs text-on-surface-variant mt-1">시그니처 라떼 원두 소진 임박</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Done Column -->
+                <div class="flex-shrink-0 w-[300px] flex flex-col gap-4 opacity-70">
+                    <div class="flex items-center justify-between px-2">
+                        <span class="font-extrabold text-base text-on-surface uppercase">완료 (Done)</span>
+                        <span class="neu-inset px-2.5 py-1 rounded-md text-xs font-bold text-primary">3</span>
+                    </div>
+                    <div class="min-h-[500px] neu-inset rounded-2xl p-4 flex flex-col gap-4">
+                        <div class="task-card neu-flat p-4 rounded-xl border border-white/50 opacity-60">
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" checked disabled class="mt-1 rounded border-none neu-inset text-primary w-4 h-4">
+                                <div>
+                                    <h4 class="font-bold text-sm task-checked text-on-surface">공간 사전 점검 완료</h4>
+                                    <p class="text-xs text-on-surface-variant mt-1">성수 실측 리포트 업로드 됨</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="task-card neu-flat p-4 rounded-xl border border-white/50 opacity-60">
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" checked disabled class="mt-1 rounded border-none neu-inset text-primary w-4 h-4">
+                                <div>
+                                    <h4 class="font-bold text-sm task-checked text-on-surface">에스크로 예치금 입금 확인</h4>
+                                    <p class="text-xs text-on-surface-variant mt-1">결제 시스템 승인 완료</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="task-card neu-flat p-4 rounded-xl border border-white/50 opacity-60">
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" checked disabled class="mt-1 rounded border-none neu-inset text-primary w-4 h-4">
+                                <div>
+                                    <h4 class="font-bold text-sm task-checked text-on-surface">전자 계약 체결</h4>
+                                    <p class="text-xs text-on-surface-variant mt-1">쌍방 서명 및 암호화 완료</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- 5. Common Screen: Dashboard -->
         <div id="screen-dashboard" class="app-screen">
-            <div class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-                <div>
-                    <div class="flex items-center gap-2 mb-2">
-                        <h1 class="text-3xl font-black text-on-surface tracking-tight">더 아카이브 성수 X 모노클로젯</h1>
-                        <span class="px-3 py-1 neu-inset text-primary rounded-full text-xs font-bold flex items-center gap-1 border border-primary/20">
-                            <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> D+3 Operating
-                        </span>
-                    </div>
-                    <p class="text-sm font-medium text-on-surface-variant">2025.06.10 ~ 06.24 팝업 실시간 리포트</p>
-                </div>
-                <button class="px-6 py-3 neu-btn rounded-xl font-bold flex items-center gap-2 text-sm text-primary">
-                    <span class="material-symbols-outlined">file_download</span> 일간 리포트 다운로드
-                </button>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div class="neu-card p-6 rounded-2xl flex flex-col gap-3 hover:-translate-y-1 transition-transform">
-                    <div class="flex justify-between items-start">
-                        <span class="font-bold text-sm text-on-surface-variant uppercase tracking-wide">오늘 방문객 (누적)</span>
-                        <div class="p-2 neu-inset text-primary rounded-lg"><span class="material-symbols-outlined">groups</span></div>
-                    </div>
-                    <div class="flex items-baseline gap-2">
-                        <span class="text-4xl font-black text-on-surface">312</span>
-                        <span class="text-sm font-bold text-on-surface-variant">명</span>
-                    </div>
-                    <span class="text-xs font-bold text-tertiary flex items-center gap-1 mt-1"><span class="material-symbols-outlined text-[14px]">trending_up</span> 어제 대비 +18%</span>
-                </div>
-                <div class="neu-card p-6 rounded-2xl flex flex-col gap-3 hover:-translate-y-1 transition-transform">
-                    <div class="flex justify-between items-start">
-                        <span class="font-bold text-sm text-on-surface-variant uppercase tracking-wide">시간당 평균 체류</span>
-                        <div class="p-2 neu-inset text-secondary rounded-lg"><span class="material-symbols-outlined">schedule</span></div>
-                    </div>
-                    <div class="flex items-baseline gap-2">
-                        <span class="text-4xl font-black text-on-surface">24</span>
-                        <span class="text-sm font-bold text-on-surface-variant">분</span>
-                    </div>
-                    <span class="text-xs font-bold text-tertiary flex items-center gap-1 mt-1"><span class="material-symbols-outlined text-[14px]">trending_up</span> 평균 대비 +5%</span>
-                </div>
-                <div class="neu-card p-6 rounded-2xl flex flex-col gap-3 hover:-translate-y-1 transition-transform">
-                    <div class="flex justify-between items-start">
-                        <span class="font-bold text-sm text-on-surface-variant uppercase tracking-wide">F&B 전환 매출 (추정)</span>
-                        <div class="p-2 neu-inset text-primary rounded-lg"><span class="material-symbols-outlined">payments</span></div>
-                    </div>
-                    <div class="flex items-baseline gap-2">
-                        <span class="text-3xl font-black text-on-surface">1.8M</span>
-                        <span class="text-sm font-bold text-on-surface-variant">KRW</span>
-                    </div>
-                    <span class="text-xs font-bold text-tertiary flex items-center gap-1 mt-1"><span class="material-symbols-outlined text-[14px]">trending_up</span> 목표 달성률 120%</span>
-                </div>
-                <div class="neu-card p-6 rounded-2xl flex flex-col gap-3 hover:-translate-y-1 transition-transform">
-                    <div class="flex justify-between items-start">
-                        <span class="font-bold text-sm text-on-surface-variant uppercase tracking-wide">SNS 태그 (실시간)</span>
-                        <div class="p-2 neu-inset text-error rounded-lg"><span class="material-symbols-outlined">tag</span></div>
-                    </div>
-                    <div class="flex items-baseline gap-2">
-                        <span class="text-4xl font-black text-on-surface">84</span>
-                        <span class="text-sm font-bold text-on-surface-variant">건</span>
-                    </div>
-                    <span class="text-xs font-bold text-primary flex items-center gap-1 mt-1"><span class="material-symbols-outlined text-[14px]">campaign</span> 바이럴 지수 매우 높음</span>
-                </div>
-            </div>
-
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 neu-card rounded-2xl p-6 flex flex-col gap-6">
                     <h3 class="text-lg font-bold text-on-surface">시간대별 트래픽 추이</h3>
@@ -579,16 +658,113 @@
                     </div>
                 </div>
             </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+                <!-- Best Selling Items Panel -->
+                <div class="lg:col-span-2 neu-card rounded-2xl p-6 flex flex-col gap-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-bold text-on-surface">실시간 팝업 인기 상품 (Top Sellers)</h3>
+                        <button class="text-xs font-bold text-primary hover:underline">전체 재고 보기</button>
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <!-- Item 1 -->
+                        <div class="neu-inset p-4 rounded-xl flex items-center justify-between border-l-4 border-primary bg-white/20">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 neu-flat rounded-lg flex items-center justify-center font-bold text-primary text-sm">1위</div>
+                                <div>
+                                    <h4 class="font-bold text-sm text-on-surface">모노클로젯 시그니처 후드 (Black/L)</h4>
+                                    <p class="text-[10px] text-on-surface-variant font-medium mt-1">오늘 42벌 판매 · <span class="text-tertiary">품절 임박</span></p>
+                                </div>
+                            </div>
+                            <div class="w-32 h-2.5 bg-white/50 rounded-full neu-inset overflow-hidden">
+                                <div class="h-full bg-primary rounded-full relative" style="width: 85%">
+                                    <div class="absolute inset-0 bg-white/20 animate-pulse"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Item 2 -->
+                        <div class="neu-inset p-4 rounded-xl flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 neu-flat rounded-lg flex items-center justify-center font-bold text-on-surface-variant text-sm">2위</div>
+                                <div>
+                                    <h4 class="font-bold text-sm text-on-surface">아카이브 X 모노클로젯 한정판 머그</h4>
+                                    <p class="text-[10px] text-on-surface-variant font-medium mt-1">오늘 28개 판매 · 재고 여유</p>
+                                </div>
+                            </div>
+                            <div class="w-32 h-2.5 bg-white/50 rounded-full neu-inset overflow-hidden">
+                                <div class="h-full bg-secondary rounded-full" style="width: 45%"></div>
+                            </div>
+                        </div>
+                        <!-- Item 3 -->
+                        <div class="neu-inset p-4 rounded-xl flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 neu-flat rounded-lg flex items-center justify-center font-bold text-on-surface-variant text-sm">3위</div>
+                                <div>
+                                    <h4 class="font-bold text-sm text-on-surface">빈티지 워싱 데님 팬츠</h4>
+                                    <p class="text-[10px] text-on-surface-variant font-medium mt-1">오늘 15벌 판매 · 재고 보통</p>
+                                </div>
+                            </div>
+                            <div class="w-32 h-2.5 bg-white/50 rounded-full neu-inset overflow-hidden">
+                                <div class="h-full bg-secondary rounded-full" style="width: 30%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Alerts Panel -->
+                <div class="neu-card rounded-2xl p-6 flex flex-col gap-4">
+                    <div class="flex justify-between items-center mb-2 border-b border-white/50 pb-2">
+                        <h3 class="text-lg font-bold text-on-surface">현장 알림 (Live Alerts)</h3>
+                        <span class="px-2 py-0.5 bg-error-container text-error text-[10px] rounded-full font-bold">2 New</span>
+                    </div>
+                    <div class="flex flex-col gap-4 overflow-y-auto custom-scrollbar h-[250px] pr-2">
+                        <!-- Alert 1 -->
+                        <div class="flex items-start gap-3 bg-white/30 p-3 rounded-xl border border-error/20">
+                            <div class="w-8 h-8 rounded-full bg-error-container text-error flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span class="material-symbols-outlined text-sm">inventory_2</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xs text-on-surface">재고 부족 경고</h4>
+                                <p class="text-[10px] text-on-surface-variant mt-1 leading-relaxed">시그니처 후드(L) 사이즈 재고가 10벌 미만입니다. 추가 발주가 필요합니다.</p>
+                                <span class="text-[9px] text-primary font-bold mt-2 block">10 mins ago</span>
+                            </div>
+                        </div>
+                        <!-- Alert 2 -->
+                        <div class="flex items-start gap-3 p-3 neu-inset rounded-xl">
+                            <div class="w-8 h-8 rounded-full bg-primary-fixed-dim text-primary flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span class="material-symbols-outlined text-sm">groups</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xs text-on-surface">대기열 증가 안내</h4>
+                                <p class="text-[10px] text-on-surface-variant mt-1 leading-relaxed">현재 외부 대기열이 30팀을 초과했습니다. 음료 픽업존 혼잡 우려.</p>
+                                <span class="text-[9px] text-on-surface-variant font-bold mt-2 block">32 mins ago</span>
+                            </div>
+                        </div>
+                        <!-- Alert 3 -->
+                        <div class="flex items-start gap-3 p-3 neu-inset rounded-xl">
+                            <div class="w-8 h-8 rounded-full neu-flat text-secondary flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span class="material-symbols-outlined text-sm">star</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xs text-on-surface">VIP 인플루언서 방문</h4>
+                                <p class="text-[10px] text-on-surface-variant mt-1 leading-relaxed">사전 등록된 VIP(인스타그램 @fashion_***) 고객이 체크인 하였습니다.</p>
+                                <span class="text-[9px] text-on-surface-variant font-bold mt-2 block">1 hour ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </main>
 
+    <!-- Modal -->
     <div id="approval-modal" class="hidden fixed inset-0 bg-on-surface/30 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
         <div class="neu-card rounded-3xl max-w-md w-full p-8 animate-in fade-in zoom-in duration-200">
             <div class="w-16 h-16 neu-inset text-primary rounded-full flex items-center justify-center mb-6">
                 <span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">handshake</span>
             </div>
-            <h2 class="text-2xl mb-3 font-extrabold text-on-surface tracking-tight">매칭을 수락하시겠습니까?</h2>
+            <h2 class="text-2xl mb-3 font-extrabold text-on-surface tracking-tight">요청을 승인하시겠습니까?</h2>
             <p class="text-sm text-on-surface-variant mb-8 leading-relaxed font-medium">승인 시 브랜드 담당자와의 스마트 계약(전자 서명) 단계로 이동합니다.</p>
             <div class="flex gap-4">
                 <button onclick="closeModal()" class="flex-1 py-4 neu-btn rounded-xl font-bold text-sm tracking-widest text-on-surface-variant">취소</button>
@@ -597,63 +773,100 @@
         </div>
     </div>
 
-    <div id="toast-container" class="fixed bottom-8 right-8 z-[150] flex flex-col gap-3"></div>
+    <!-- Toast Notification -->
+    <div id="toast-container" class="fixed bottom-8 right-8 z-[150] flex flex-col gap-3 pointer-events-none"></div>
 
     <script>
-        // SPA Routing Logic
+        let currentUserRole = null;
+        
         const routeTitles = {
-            'search': 'AI 공간 탐색',
-            'requests': '매칭 요청 관리',
+            'search': '공간 탐색 (Brand Mode)',
+            'requests': '요청 관리 (Cafe Mode)',
             'contract': '전자 계약 체결',
             'kanban': '운용 칸반 보드',
             'dashboard': '실시간 운영 대시보드'
         };
 
+        // 로그인 분기 처리 함수
+        function selectRole(role) {
+            currentUserRole = role;
+            
+            // 프로필 정보 업데이트
+            const roleText = role === 'brand' ? 'Brand Admin' : (role === 'cafe' ? 'Cafe Owner' : 'Super Admin');
+            document.getElementById('user-profile-role').innerText = roleText;
+            
+            // 사이드바 메뉴 동적 표시
+            const navSearch = document.getElementById('nav-search');
+            const navRequests = document.getElementById('nav-requests');
+            
+            if (role === 'brand') {
+                navSearch.style.display = 'flex';
+                navRequests.style.display = 'none';
+                navigateTo('search');
+            } else if (role === 'cafe') {
+                navSearch.style.display = 'none';
+                navRequests.style.display = 'flex';
+                navigateTo('requests');
+            } else {
+                navSearch.style.display = 'flex';
+                navRequests.style.display = 'flex';
+                navigateTo('dashboard');
+            }
+
+            // 오버레이 페이드 아웃
+            const overlay = document.getElementById('login-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 500);
+            
+            showToast(`${roleText} 계정으로 접속했습니다.`);
+        }
+
+        // 라우팅 처리
         function navigateTo(screenId) {
-            // Hide all
             document.querySelectorAll('.app-screen').forEach(el => el.classList.remove('active'));
-            // Show target
             document.getElementById(`screen-${screenId}`).classList.add('active');
             
-            // Update Header Title
             document.getElementById('header-title').innerText = routeTitles[screenId];
             
-            // Highlight Nav
             document.querySelectorAll('.nav-item').forEach(el => {
                 el.classList.remove('neu-inset', 'text-primary');
                 el.classList.add('text-on-surface-variant');
             });
-            document.getElementById(`nav-${screenId}`).classList.add('neu-inset', 'text-primary');
-            document.getElementById(`nav-${screenId}`).classList.remove('text-on-surface-variant');
-
-            // Scroll Top
+            const activeNav = document.getElementById(`nav-${screenId}`);
+            if(activeNav) {
+                activeNav.classList.add('neu-inset', 'text-primary');
+                activeNav.classList.remove('text-on-surface-variant');
+            }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // --- Interaction Flow Logic ---
-        
-        // 1. Search -> Request
+        // 인터랙션 흐름
         function requestMatch() {
-            showToast("모노클로젯 명의로 매칭을 신청했습니다.");
-            setTimeout(() => navigateTo('requests'), 1500);
+            showToast("카페 대여 매칭을 신청했습니다.");
+            // 원래는 요청 후 대기 화면이나 내역으로 가야하나, 테스트용이므로 잠시 후 requests 화면 시뮬레이션
+            setTimeout(() => showToast("알림: 공간 제공자가 요청을 검토 중입니다."), 1500);
         }
 
-        // 2. Request -> Modal
         function openApprovalModal() {
             document.getElementById('approval-modal').classList.remove('hidden');
         }
         function closeModal() {
             document.getElementById('approval-modal').classList.add('hidden');
         }
-
-        // 3. Modal -> Contract
         function confirmApproval() {
             closeModal();
             showToast("요청을 승인했습니다. 계약 화면으로 이동합니다.");
             setTimeout(() => navigateTo('contract'), 1500);
         }
 
-        // 4. Contract Logic
+        // 계약 화면 파일 다운로드
+        function downloadPDF() {
+            showToast("견적서 PDF가 다운로드 폴더에 저장되었습니다.");
+        }
+
+        // 계약 결제 로직
         const contractCheckbox = document.getElementById('contractReview');
         const btnSign = document.getElementById('btn-sign');
         const escrowSection = document.getElementById('escrow-section');
@@ -671,16 +884,15 @@
         });
 
         btnSign.addEventListener('click', () => {
-            btnSign.innerHTML = `<span class="animate-spin material-symbols-outlined text-[18px] align-middle">sync</span> 서명 암호화 중...`;
+            btnSign.innerHTML = `<span class="animate-spin material-symbols-outlined text-[18px] align-middle">sync</span> 서명 확인 중...`;
             btnSign.disabled = true;
             setTimeout(() => {
                 btnSign.classList.add('hidden');
                 escrowSection.classList.remove('hidden');
-                showToast("전자 서명이 안전하게 저장되었습니다.");
+                showToast("전자 서명이 안전하게 완료되었습니다.");
             }, 1200);
         });
 
-        // 5. Pay -> Kanban
         function executePayment() {
             const btnPay = document.querySelector('#escrow-section button');
             btnPay.innerHTML = `<span class="animate-spin material-symbols-outlined text-[20px] align-middle">sync</span> 에스크로 예치 중...`;
@@ -689,7 +901,7 @@
                 showToast("에스크로 결제가 완료되었습니다. 프로젝트가 시작됩니다!");
                 setTimeout(() => {
                     navigateTo('kanban');
-                    // Reset contract state for demo repeatability
+                    // Reset
                     btnPay.innerHTML = `안전 결제 (에스크로 예치) 진행`;
                     btnPay.disabled = false;
                     escrowSection.classList.add('hidden');
@@ -701,7 +913,7 @@
             }, 1500);
         }
 
-        // Kanban Interactions (Checkbox crossing out)
+        // 체크박스 토글
         document.querySelectorAll('.task-card input[type="checkbox"]').forEach(checkbox => {
             checkbox.addEventListener('change', function() {
                 const title = this.closest('.task-card').querySelector('h4');
@@ -715,7 +927,7 @@
             });
         });
 
-        // Toast System
+        // 토스트 알림
         function showToast(message) {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -723,10 +935,7 @@
             toast.innerHTML = `<span class="material-symbols-outlined text-xl">check_circle</span><span>${message}</span>`;
             
             container.appendChild(toast);
-            
-            // trigger reflow
             void toast.offsetWidth; 
-            
             toast.classList.remove('opacity-0', 'translate-y-4');
             
             setTimeout(() => { 
@@ -734,11 +943,6 @@
                 setTimeout(() => toast.remove(), 300); 
             }, 3000);
         }
-
-        // Initialize App
-        document.addEventListener('DOMContentLoaded', () => {
-            navigateTo('search'); // Set initial screen
-        });
     </script>
 </body>
 </html>
